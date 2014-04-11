@@ -1,0 +1,162 @@
+#tbl_hexfield>.row>div {
+	width: 50px;
+	height: 50px;
+	float:left;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 50px; 
+}
+
+ul.preview {
+
+	list-style: none;
+	padding: 10px;
+	margin: 0px;
+}
+
+ul.preview>li {
+	text-align: center;
+	vertical-align: middle;
+	
+}
+
+.move_tile	{
+	position: absolute;
+	width: 30px;
+	height: 30px;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 0px; 
+	-moz-border-radius: 30px;
+	border-radius: 30px;
+	z-index: 100;
+
+}
+
+.preview-board .row>div	{
+	width: 20px;
+	height: 20px;
+	float:left;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 20px;
+}
+
+.preview-board {
+	border-radius: 15px;
+	-moz-borer-radius: 15px;
+	border: 1px solid grey;
+	margin: 5px;
+	float:left;
+	margin-left: 10px;
+	padding-left: 20px;
+}
+
+.preview-board:hover	{
+	background-color: salmon;
+}
+
+#field_selection	{
+	width: 100%;
+}
+
+.preview-board .row>div.field-tile		{
+	border: 1px solid grey;
+	margin: 3px;
+	z-index: 10;
+	position: relative;
+	background-color: #F5F5DC;
+
+	-moz-border-radius: 20px;
+	border-radius: 20px;
+}
+
+.preview-board .row>div.field_empty	{
+	width:10px;
+	margin: 1.5px;
+}
+
+.value {
+	position: relative;
+}
+.connector	{
+	position: absolute;
+    width: 1px;
+    background-color: grey;
+    -webkit-transform-origin: top right;
+    -moz-transform-origin: top left;
+    -o-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    z-index: 1;
+}
+
+
+#tbl_hexfield>.row>div.field_empty	{
+	width:25px;
+	margin: 1.5px;
+}
+
+
+#tbl_hexfield>.row>div.field-tile.circle	{
+	-moz-border-radius: 50px 50px 50px 50px;
+	border-radius: 50px 50px 50px 50px;
+}
+
+#tbl_hexfield>.row>div.field-tile		{
+	height: 50px;
+	width: 50px;
+	border: 1px solid grey;
+	margin: 3px;
+	z-index: 10;
+	position: relative;
+	background-color: #F5F5DC;
+
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+}
+
+#tbl_hexfield	{
+	margin-left: 40px;
+	margin-top: 40px;
+	border: 1px solid grey;
+	position: absolute;
+	padding: 100px;
+}
+
+#editor-tools>div	{
+	float: left;
+}
+
+div.clear	{
+	clear: both;
+}
+
+#list_colums	{
+	float: left;
+	list-style: none;
+	
+}
+
+.inp_colum {
+	width: 20px;
+}
+
+.colums {
+	margin-top: 50px;
+}
+
+
+#layer	{
+	position: absolute;
+	width: 170px;
+	height: 170px;
+	-moz-border-radius: 170px;
+	border-radius: 170px;
+}
+.content {
+	position: relative;
+	z-index: 10000;
+	border: 3px solid grey;
+	background-color: beige;
+}
