@@ -28,8 +28,8 @@ function(Backbone, Board,HighscoreStorage)	{
 		render_maps: function(maps)	{
 			var self = this;
 			for(var i = 0; i < maps.length; i++)	{
-				var highscore = localStorage.get_highscore(maps[i]);
 				var mapkey = localStorage.get_mapkey(maps[i]);
+				var highscore = localStorage.getItem(mapkey);
 				var board = _.template(this.board_template, {map: Board.get_rendermap(maps[i])});
 				var single_preview = _.template(this.preview_template, {highscore:highscore, mapkey: mapkey});
 				this.$el.find('.field_select[data-id="' + i + '"]')

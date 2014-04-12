@@ -109,18 +109,14 @@ function(Backbone, BoardView, HighscoreStorage, TileView)	{
 			}
 		},
 		update_score: function(score)	{
-			
-			if(score > this.get_highscore() || !this.get_highscore())	{
-				this.update_highscore(score);
+			var boardmap = this.board.get_boardmap();
+			var highscore = localStorage.get_highscore(boardmap);
+			console.log(highscore);
+			if(score > highscore)	{
+				localStorage.set_highscore(boardmap, score);
+				app.observer.trigger('highscore', {highscore: score, boardmap: boardmap});
 			}
 			this.$el.find('#score').html(score);
-		},
-		update_highscore: function(score)	{
-			localStorage.set_highscore(this.board.get_boardmap(), score);
-			this.$el.find('.highscore').html(score);
-		},
-		get_highscore: function()	{
-			return parseInt(localStorage.get_highscore(this.board.get_boardmap()));
 		},
 		new_game: function(e)	{
 			for(tile in this.tiles)	{

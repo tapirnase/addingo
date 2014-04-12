@@ -13,9 +13,8 @@ function(Riddle)	{
 			this.board = option.board;
 			this.render(option);
 			this.fields = this.get_field_array();
-			this.neighbour_checks = this.init_neighbourchecks();
 			this.render_connectors();
-			this.update_highscore(localStorage.get_highscore(this.board.get_boardmap()));
+			app.observer.trigger('highscore', {boardmap: this.board.get_boardmap()});
 		},
 
 		init_neighbourchecks: function()	{
@@ -56,7 +55,7 @@ function(Riddle)	{
 		},
 
 		render_connectors: function()	{
-			
+			this.neighbour_checks = this.init_neighbourchecks();
 
 			for(var i = 0;  i < this.fields.length; i++)	{
 				for(var j = 0; j < this.fields[i].length; j++)	{

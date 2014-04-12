@@ -15,9 +15,6 @@ function(Backbone)	{
 			this.set_functions(option.trigger);
 			this.parent_el = option.parent;
 			this.layer = this.$el.find('#layer');
-			console.log(this.parent_el.offset());
-
-
 		},
 		render: function()	{
 			this.$el.html(_.template(this.template, {}));

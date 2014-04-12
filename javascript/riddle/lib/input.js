@@ -4,15 +4,12 @@ define([
 	'riddle/views/riddle',
 ],
 function(Board, PreView, RiddleView)	{
-	function input(gameover_callback, newgame_callback, update_callback)	{
+	function input(keys)	{
 		
 		var keymap = {37: false, 38: false, 39: false, 40: false};
 		var movemap = {'1100':0, '1001': 1, '1000': 2, '0010': 3, '0110': 4, '0011': 5, '0100': 6, '0001': 7}; // lo, lu, l, r, ro, ru, o, u
 		var game_over = false;
 		var game_start = false;
-		var gameover_callback = gameover_callback;
-		var newgame_callback = newgame_callback;
-		var update_callback = update_callback;
 		var boardview; 
 		var board;
 
@@ -46,7 +43,7 @@ function(Board, PreView, RiddleView)	{
 		});
 
 		$(document).keyup(function(e)	{
-			if(calc_movements(get_keystring())) app.observer.trigger('keypress');
+			calc_movements(get_keystring());
 			//boardview.unmark_connectors(movemap[get_keystring()]);
 			keymap = {37: false, 38: false, 39: false, 40: false};
 		});
