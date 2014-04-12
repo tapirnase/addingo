@@ -5,8 +5,8 @@ define([
 ],
 function(Board, PreView, RiddleView)	{
 	function input(keys)	{
-		
-		var keymap = {37: false, 38: false, 39: false, 40: false};
+		var keys = keys;
+		var keymap = set_keymap(keys);
 		var movemap = {'1100':0, '1001': 1, '1000': 2, '0010': 3, '0110': 4, '0011': 5, '0100': 6, '0001': 7}; // lo, lu, l, r, ro, ru, o, u
 		var game_over = false;
 		var game_start = false;
@@ -45,7 +45,7 @@ function(Board, PreView, RiddleView)	{
 		$(document).keyup(function(e)	{
 			calc_movements(get_keystring());
 			//boardview.unmark_connectors(movemap[get_keystring()]);
-			keymap = {37: false, 38: false, 39: false, 40: false};
+			keymap = set_keymap(keys);
 		});
 
 		function get_keystring()	{
@@ -58,6 +58,14 @@ function(Board, PreView, RiddleView)	{
 				}
 			}
 			return str;
+		}
+
+		function set_keymap(keys)	{
+			var tmpkeymap = {};
+			for(var i = 0; i < keys.length; i++)	{
+				tmpkeymap[keys[i]] = false;
+			}
+			return tmpkeymap;
 		}
 
 		function calc_movements(keystring)	{
