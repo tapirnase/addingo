@@ -26,9 +26,6 @@ function(Backbone)	{
 				this.update();
 			};
 			if(!value)	this.layer.html('');
-			
-
-			
 		},
 		set_functions: function(trigger)	{
 			var self = this;
