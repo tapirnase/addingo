@@ -11,7 +11,7 @@ function(Backbone, PreView, RiddleView, CommunicationView,Board, Input)	{
 		className: 'app',
 		tagName: 'div',
 		el: 'body',
-		template: $('#app-template').html(),
+		template: null,
 		preview: null,
 		board: null,
 		boardview: null,
@@ -21,28 +21,23 @@ function(Backbone, PreView, RiddleView, CommunicationView,Board, Input)	{
 
 		initialize: function(option)	{
 			var self = this;
+			this.template = app.templates.get('app');
+			app.observer.settrigger('keypress', function()	{
+				console.log('taste gedrückt!');
+			});
 			localStorage.init(option.maps);
 			this.render();
 			this.preview = new PreView({maps: option.maps});
-			this.communication_layer = new CommunicationView();
-			this.input = new Input(
-			function(gameover)	{
-				var parent = self.$el.find('#tbl_hexfield');
-				self.communication_layer.set_gameover(gameover, parent);
-			},
-			function(gamestart, start)	{
-				var parent = self.$el.find('#tbl_hexfield');
-				self.communication_layer.set_start(gamestart, parent);
-				if(start) self.new_game();
-			}, 
-			function()	{
-				for(var view in self.highscore_views)	{
+			this.communication_layer = new CommunicationView(
+				{trigger: ['gamestart', 'gameover'], parent: this.$el.find('#tbl_hexfield')});
+			this.input = new Input();
+
+				/*for(var view in self.highscore_views)	{
 					if(typeof self.highscore_views[view] == 'object')	{
 						var highscore = localStorage.getItem(view);
 						self.highscore_views[view].html(localStorage.getItem(view));
 					}
-				}
-			});
+				}*/
 			this.get_highscore_views();
 		},
 		render: function() {
@@ -74,6 +69,7 @@ function(Backbone, PreView, RiddleView, CommunicationView,Board, Input)	{
 		create_game: function(boardmap)	{
 			this.board = new Board(boardmap);
 		 	this.boardview = new RiddleView({map: Board.get_rendermap(boardmap), board: this.board});
+		 	this.communication_layer.parent_el = this.$el.find('#tbl_hexfield');
 			this.input.update(this.boardview, this.board);
 			this.toggle_preview();
 		},

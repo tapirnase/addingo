@@ -34,20 +34,20 @@ function(Board, PreView, RiddleView)	{
 			board.reset();
 			game_over = false;
 			game_start = false;
-			newgame_callback(!game_start);
+			app.observer.trigger('gamestart', {state: !game_start});
 		}
 
 
 		$(document).keydown(function(e) {
 			e.preventDefault();
 		    keymap[e.keyCode] = true;
-		    boardview.mark_connectors(movemap[get_keystring()]);
+		    //boardview.mark_connectors(movemap[get_keystring()]);
 
 		});
 
 		$(document).keyup(function(e)	{
-			if(calc_movements(get_keystring())) update_callback();
-			boardview.unmark_connectors(movemap[get_keystring()]);
+			if(calc_movements(get_keystring())) app.observer.trigger('keypress');
+			//boardview.unmark_connectors(movemap[get_keystring()]);
 			keymap = {37: false, 38: false, 39: false, 40: false};
 		});
 
@@ -67,7 +67,7 @@ function(Board, PreView, RiddleView)	{
 			if(typeof movemap[keystring] != 'undefined' && !game_over)	{
 					do_movement(keystring);
 					game_over = check_game_over();
-					gameover_callback(game_over);
+					app.observer.trigger('gameover', {state: game_over});
 					return true;
 			}
 			return false;
@@ -83,7 +83,7 @@ function(Board, PreView, RiddleView)	{
 			if((tiles_left == 0 && moved) || !game_start)	{
 				boardview.new_tile(board.tiles.new_random_tile(false));
 				game_start = true;
-				newgame_callback(game_start, false);
+				app.observer.trigger('gamestart', {state: !game_start});
 			}
 		}
 

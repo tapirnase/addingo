@@ -3,9 +3,13 @@ define([
 ],	
 function(Riddle)	{
 	var Riddle = Riddle.extend({
-		connector_template: $('#connector-template').html(),
+		connector_template: null,
 		neighbour_checks: [],
 		initialize: function(option)	{
+			this.template = app.templates.get('index');
+			this.tile_template = app.templates.get('tile');
+			this.board_template = app.templates.get('board');
+			this.connector_template = app.templates.get('connector');
 			this.board = option.board;
 			this.render(option);
 			this.fields = this.get_field_array();

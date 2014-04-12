@@ -8,11 +8,14 @@ function(Backbone, Board,HighscoreStorage)	{
 		className: 'preview-container',
 		tagName: 'div',
 		el: '#select_menu',
-		template: $('#preview-field-template').html(),
-		board_template: $('#board-template').html(),
-		preview_template: $('#preview-template').html(),
+		template: null,
+		board_template: null,
+		preview_template: null,
 		maps: [],
 		initialize: function(option)	{
+			this.template = app.templates.get('preview-field');
+			this.board_template = app.templates.get('board');
+			this.preview_template =  app.templates.get('preview');
 			this.render(option);
 			this.maps = option.maps;
 			this.render_maps(this.maps);

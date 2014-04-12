@@ -11,13 +11,16 @@ function(Backbone, BoardView, HighscoreStorage, TileView)	{
 		el: '#game',
 		board: [],
 		animation_dur: 100,
-		template: $('#index-template').html(),
-		tile_template: $('#tile-template').html(),
-		board_template: $('#board-template').html(),
+		template: null,
+		tile_template: null,
+		board_template: null,
 		fields: [], 
 		tiles: {}, 
 		
 		initialize: function(option)	{
+			this.template = app.templates.get('index');
+			this.tile_template = app.templates.get('tile');
+			this.board_template = app.templates.get('board');
 			this.board = option.board;
 			this.render(option);
 			this.fields = this.get_field_array();

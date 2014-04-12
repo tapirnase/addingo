@@ -6,41 +6,46 @@ function(Backbone)	{
 		className: 'communication-layer',
 		tagName: 'div',
 		el: '#communication',
-		template: $('#communication-template').html(),
-		gameover_template: $('#gameover-template').html(),
-		startgame_template: $('#newgame-template').html(),
-		parent: null,
+		template: null,
+		parent_el: null,
 		layer: null,
 		initialize: function(option)	{
+			this.template =  app.templates.get('communication');
 			this.render();
+			this.set_functions(option.trigger);
+			this.parent_el = option.parent;
 			this.layer = this.$el.find('#layer');
+			console.log(this.parent_el.offset());
+
+
 		},
 		render: function()	{
 			this.$el.html(_.template(this.template, {}));
 		},
-		render_layer: function(value, template, parent)	{
-			if(value)	this.layer.html(_.template(template));
+		render_layer: function(value, name)	{
+			var template = app.templates.get(name);
+			if(value)	{
+				this.layer.html(_.template(template))
+				this.update();
+			};
 			if(!value)	this.layer.html('');
-			this.update(parent);
+			
 
 			
 		},
-		set_gameover: function(gameover, parent) {
-			this.render_layer(gameover, this.gameover_template, parent);
+		set_functions: function(trigger)	{
+			var self = this;
+			for(var i = 0; i < trigger.length; i++)	{
+				var template = app.templates.get(trigger[i]);
+				this[trigger[i]] = function(argobj, name)	{
+					self.render_layer(argobj.state, name);
+				}
+				app.observer.settrigger(trigger[i], this[trigger[i]]);
+			}
 		},
-
-		set_start: function(gamestart, parent)	{
-			this.render_layer(gamestart, this.startgame_template, parent)
-		},
-		update: function(parent)	{
-				this.layer.css('top', parent.offset().top + 20);
-				this.layer.css('left', parent.offset().left + 20 );
-		},
-		events: {
-			'click #layer .close': 'close_layer',
-		},
-		close_layer: function()	{
-			this.layer.html('');
+		update: function()	{
+				this.layer.css('top', this.parent_el.offset().top + 20);
+				this.layer.css('left', this.parent_el.offset().left + 20 );
 		}
 	});
 	return CommunicationView;
