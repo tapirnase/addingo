@@ -1,7 +1,7 @@
 define([
 	'backbone'
 ],
-function(Backbone, Movement)	{
+function(Backbone)	{
 	var MoveObject = Backbone.Model.extend({
 		element: undefined,
 
