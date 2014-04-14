@@ -2,14 +2,10 @@ define([
 	'json'
 ],
 function(JSON)	{	
-	Storage.prototype.init = function(mapcollection, empty_obj)	{
-		var self = this;
-		mapcollection.each(function(map)	{
-			
-			if(self.getItem(map.get('mapkey')) == null)	{
-				self.setItem(map.get('mapkey'), JSON.stringify(empty_obj));
-			}
-		});
+	Storage.prototype.init = function(mapkey)	{
+		if(localStorage.getItem(mapkey) == null)  {
+          localStorage.setItem(mapkey, JSON.stringify({tile: 0, highscore: 0}));
+        }
 	}
 
 	Storage.prototype.get_value = function(mapkey, type)	{

@@ -44,9 +44,7 @@ function(Backbone, RiddleController, Observer, Templates, MapModel, MapCollectio
       var models = [];
       for(var i = 0; i < maps.length; i++)  {
         var mapkey = localStorage.get_mapkey(maps[i].map);
-        if(localStorage.getItem(mapkey) == null)  {
-          localStorage.setItem(mapkey, JSON.stringify({tile: 0, highscore: 0}));
-        }
+        localStorage.init(mapkey);
         models.push(new MapModel(maps[i]));
       }
       return new MapCollection(models);

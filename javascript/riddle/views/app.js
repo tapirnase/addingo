@@ -21,7 +21,6 @@ function(Backbone, PreView, RiddleView, CommunicationView,Board, Input, MapColle
 		initialize: function()	{
 			var self = this;
 			this.template = app.templates.get('app');
-			localStorage.init(this.collection, {tile: 0, highscore: 0});
 			this.render();
 			this.preview = new PreView({collection: this.collection});
 			this.communication_layer = new CommunicationView(
