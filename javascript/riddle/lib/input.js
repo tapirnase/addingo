@@ -98,7 +98,7 @@ function(Board, PreView, RiddleView)	{
 				boardview.move_tile(old_field, new_field, score, to_delete);
 				moved = movement;
 			});
-			if(!game_start)	{
+			if(!game_start && tiles_left == 0 && moved)	{
 				boardview.new_tile(board.tiles.new_random_tile(false));
 				game_start = false;
 			}
