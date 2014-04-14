@@ -24,9 +24,10 @@ require([
   'riddle/lib/observer',
   'riddle/lib/templates',
   'riddle/models/mapmodel',
-  'riddle/collections/mapcollection'
+  'riddle/collections/mapcollection',
+  'json'
 ], 
-function(Backbone, RiddleController, Observer, Templates, MapModel, MapCollection) {
+function(Backbone, RiddleController, Observer, Templates, MapModel, MapCollection, JSON) {
     window.app = {};
     app.observer = new Observer();
     app.templates = new Templates();
@@ -42,6 +43,10 @@ function(Backbone, RiddleController, Observer, Templates, MapModel, MapCollectio
     function get_maps(maps) {
       var models = [];
       for(var i = 0; i < maps.length; i++)  {
+        var mapkey = localStorage.get_mapkey(maps[i].map);
+        if(localStorage.getItem(mapkey) == null)  {
+          localStorage.setItem(mapkey) = JSON.stringify({tile: 0, highscore: 0});
+        }
         models.push(new MapModel(maps[i]));
       }
       return new MapCollection(models);
