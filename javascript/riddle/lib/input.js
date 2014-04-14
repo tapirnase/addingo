@@ -34,7 +34,7 @@ function(Board, PreView, RiddleView)	{
 			board.reset();
 			game_over = false;
 			game_start = true;
-			app.observer.trigger('gamestart', true);
+			app.observer.trigger('gamestart', {state: true});
 		}
 
 
