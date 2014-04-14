@@ -41,14 +41,14 @@ function(Board, PreView, RiddleView)	{
 		$(document).keydown(function(e) {
 			e.preventDefault();
 		    keymap[e.keyCode] = true;
-		    //boardview.mark_connectors(movemap[get_keystring()]);
+		    boardview.mark_connectors(movemap[get_keystring()]);
 
 		});
 
 		$(document).keyup(function(e)	{
 			if(!game_pause)	{
 				calc_movements(get_keystring());
-				//boardview.unmark_connectors(movemap[get_keystring()]);
+				boardview.unmark_connectors(movemap[get_keystring()]);
 				keymap = set_keymap(keys);
 			}
 			if(game_pause)	{
