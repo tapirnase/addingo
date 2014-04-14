@@ -11,20 +11,8 @@ function(Backbone, BoardView, HighscoreStorage, TileView)	{
 		el: '#game',
 		board: [],
 		animation_dur: 100,
-		template: null,
-		tile_template: null,
-		board_template: null,
 		fields: [], 
 		tiles: {}, 
-		
-		initialize: function(option)	{
-			this.template = app.templates.get('index');
-			this.tile_template = app.templates.get('tile');
-			this.board_template = app.templates.get('board');
-			this.board = option.board;
-			this.render(option);
-			this.fields = this.get_field_array();
-		},
 
 		set_corners: function(view_obj)	{
 			var corner_directions = [0,4,5,1];
@@ -32,17 +20,10 @@ function(Backbone, BoardView, HighscoreStorage, TileView)	{
 			var square = true;
 			var css_string = '';
 			for(var i = 0; i < corner_directions.length; i++)	{
-				/*if(view_obj.neighbours[corner_directions[i]] != null)	{
-					css_string += '50px ';
-				} else {
-					css_string += '15px ';
-				}*/
 				if(view_obj.neighbours[corner_directions[i]] != null)	{
 					square = false;
 				}
 			}
-			/*view_obj.view 	.css('border-radius',css_string)
-							.css('-moz-border-radius',css_string);*/
 			if(square == false)	{
 				view_obj.view.addClass('circle');
 			}
@@ -69,9 +50,10 @@ function(Backbone, BoardView, HighscoreStorage, TileView)	{
 
 			return all_fields;
 		},
-		render: function(option) {
-			this.$el.html(_.template(this.template, {mapkey: localStorage.get_mapkey(this.board.get_boardmap())} ));
-			this.$el.find('#tbl_hexfield').html(_.template(this.board_template, {map: option.map, board: this.board.get_board()}));
+		render: function() {
+			this.$el.html(_.template(this.template, this.model.toJSON()));
+			this.$el.find('#tbl_hexfield').html(_.template(this.board_template, {map: BoardView.get_rendermap(this.model.get('map'))}));
+			this.model.score_update();
 		},
 		render_tile: function(option)	{
 			this.$el.find('#tiles').append(_.template(this.tile_template, {value: option.value, id: option.id}));
@@ -109,14 +91,8 @@ function(Backbone, BoardView, HighscoreStorage, TileView)	{
 			}
 		},
 		update_score: function(score)	{
-			var boardmap = this.board.get_boardmap();
-			var highscore = localStorage.get_highscore(boardmap);
-			console.log(highscore);
-			if(score > highscore)	{
-				localStorage.set_highscore(boardmap, score);
-				app.observer.trigger('highscore', {highscore: score, boardmap: boardmap});
-			}
 			this.$el.find('#score').html(score);
+			this.model.update(score, 'highscore');
 		},
 		new_game: function(e)	{
 			for(tile in this.tiles)	{

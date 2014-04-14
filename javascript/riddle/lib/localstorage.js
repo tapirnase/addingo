@@ -1,22 +1,32 @@
 define([
+	'json'
 ],
-function()	{	
-	Storage.prototype.init = function(maps)	{
-		for(var i = 0; i < maps.length; i++)	{
-			if(this.get_highscore(maps[i]) == null)	{
-				this.set_highscore(maps[i], 0);
+function(JSON)	{	
+	Storage.prototype.init = function(mapcollection, empty_obj)	{
+		var self = this;
+		mapcollection.each(function(map)	{
+			
+			if(self.getItem(map.get('mapkey')) == null)	{
+				self.setItem(map.get('mapkey'), JSON.stringify(empty_obj));
 			}
+		});
+	}
+
+	Storage.prototype.get_value = function(mapkey, type)	{
+
+		var str_obj = this.getItem(mapkey);
+		if(type)	{
+			return JSON.parse(str_obj)[type]
+
 		}
+		return JSON.parse(str_obj);
 	}
 
-	Storage.prototype.get_highscore = function(boardmap)	{
-		return this.getItem(this.get_mapkey(boardmap));
+	Storage.prototype.set_value = function(mapkey, type, value)	{
+		var obj = JSON.parse(this.getItem(mapkey));
+		obj[type] = value;
+		this.setItem(mapkey, JSON.stringify(obj));
 	}
-
-	Storage.prototype.set_highscore = function(boardmap, highscore)	{
-		this.setItem(this.get_mapkey(boardmap), highscore);
-	}
-
 	Storage.prototype.get_mapkey = function(boardmap)	{
 		var str = '#';
 		for(var i = 0; i < boardmap.length; i++)	{

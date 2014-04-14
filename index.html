@@ -20,39 +20,13 @@
             </div>
         </script>
 
-        <script id='index-editor-template' type='text-template'>
-            <div id='editor-tools'>
-            
-                <div class='height'>
-                    <h4> Anzahl von Zeilen </h4>
-                    <input id='inp_range_height' type='range' min='2' max='15' value='5' step='1' />
-                    <label id='lbl_height'>5</label>
-                    <button id='btn_height'> Okay </button>
-                </div>
-                <div class='colums'>
-                    <ul id='list_colums'>
-                    </ul>
-                </div>
-                <div class='buttons'>
-                    <button id='btn_generate'> Erstelle Spiel </button>
-                </div>
-            </div>
-            <div class='clear'></div>
-        </script>
-        
-        <script id='editor-row-input-template' type='text-template'>
-            
-            <input class='inp_colum' data-row='<%= row %>' maxlength='2'>
-        </script>  
-
         <script id='tile-template' type='text-template'>
-                
                 <div class='move_tile' data-id='<%= id %>'><b class='value'><%= value %></b></div>
         </script>
 
         <script id='preview-field-template' type='text-template'>
             <div id='field_selection'>
-            <% for(var i = 0; i < maps.length; i++)  { %>
+            <% for(var i = 0; i < count; i++)  { %>
                 <div class='field_select' data-id='<%= i %>'></div>
             <% } %> 
             </div>
@@ -61,10 +35,24 @@
 
         <script id='preview-template' type='text-template'>
             <ul class='preview'>
+                <li class='title'>
+                    <h3><%= name %></h3>
+                </li>
                 <li class='field'>
                 </li>
                 <li class='info'>
-                    <b>Highest: </b><label class='highscore' data-mapkey='<%= mapkey %>'><%= highscore %></label>
+                    <ul class='info_table'>
+                        <li>
+                            <b>Highscore: </b><label class='highscore' data-mapkey='<%= mapkey %>'><%= highscore %></label>
+                        </li>
+                        <li>
+                            <b>Highest Tile: </b><label class='max_tile' data-mapkey='<%= mapkey %>'><%= 
+                                tile %></label>
+                        </li>
+                        <li>
+                            <b>Target Tile: </b><label class='target_tile' data-mapkey='<%= mapkey %>'><%=
+                                target_tile%></label>
+                        </li>
                 </li>
 
             </ul>    
@@ -72,7 +60,7 @@
         </script>
 
         <script id='board-template' type='text-template'>
-             <% for(var i = 0; i < map.length; i++)  { %>
+            <% for(var i = 0; i < map.length; i++)  { %>
                 <div class='row'>
                 <% var count = 0 %>
                 <% for(var j = 0; j < map[i].length; j++) {  %>
@@ -89,10 +77,11 @@
 
     	<script id='index-template' type='text-template'>
                 <div id='footer'>
-                    <b>Score: </b><label id='score'>0</label>
                     <button class='btn_newgame'>Neues Spiel</button>
                     <button class='btn_selectlevel'>Change Level</button>
                     <b>Highscore: </b><label class='highscore' data-mapkey='<%= mapkey %>'>0</label>
+                    <b>Score: </b><label id='score'>0</label>
+                    <b>Target</b><label class='target_tile' data-mapkey='<%= mapkey %>'><%= target_tile %></label>
                 </div>
                 <div id='tbl_hexfield'></div>
                 <div id='tiles'></div>
