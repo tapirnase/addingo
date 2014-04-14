@@ -137,6 +137,11 @@ div.clear	{
 	list-style: none;
 	
 }
+#communication	{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+}
 
 .inp_colum {
 	width: 20px;

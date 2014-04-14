@@ -24,9 +24,8 @@ function(Backbone, PreView, RiddleView, CommunicationView,Board, Input, MapColle
 			this.render();
 			this.preview = new PreView({collection: this.collection});
 			this.communication_layer = new CommunicationView(
-				{trigger: ['gamestart', 'gameover'], parent: this.$el.find('#tbl_hexfield')});
+				{trigger: ['gamestart', 'gameover', 'win_tile'], parent: this.$el.find('#tbl_hexfield')});
 			this.input = new Input([37,38,39,40]);
-			app.observer.settrigger('highscore', this.update_highscore);
 		},
 		render: function() {
 			this.$el.html(_.template(this.template, {} ));
@@ -45,13 +44,18 @@ function(Backbone, PreView, RiddleView, CommunicationView,Board, Input, MapColle
 			'click .btn_selectlevel': 'toggle_preview',
 			'click .btn_newgame': 'new_game',
 			'click .preview-board': 'load_game',
+			'click .btn_continue': 'continue_game',
+		},
+		continue_game: function(e)	{
+			app.observer.trigger('game_continue');
+			this.input.do_continue();
 		},
 		load_game: function(e)	{
 			this.reset();
 			this.create_game(this.preview.load_game(e));
 		},
 		create_game: function(model)	{
-			this.board = new Board(model.get('map'));
+			this.board = new Board(model.get('map'),model.get('target_tile'));
 		 	this.boardview = new RiddleView({model: model}, {board: this.board});
 		 	this.communication_layer.parent_el = this.$el.find('#tbl_hexfield');
 			this.input.update(this.boardview, this.board);

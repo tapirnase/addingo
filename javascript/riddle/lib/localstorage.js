@@ -11,7 +11,6 @@ function(JSON)	{
 	Storage.prototype.get_value = function(mapkey, type)	{
 
 		var str_obj = this.getItem(mapkey);
-		console.log(str_obj);
 		if(type && str_obj)	{
 			return JSON.parse(str_obj)[type]
 

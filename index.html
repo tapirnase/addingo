@@ -87,13 +87,21 @@
                 <div id='tiles'></div>
                 <div id='connectors'></div>
     	</script> 
-
+        <script id='win_tile-template' type='text-template'>
+        <div  id='comm_win_tile' class='content'>
+            <label class='communication'><h2>Gewonnen!</h2></label>
+            <ul id='winlist'>
+                <li> <label class='btn_newgame'>New Game</label></li>
+                <li> <label class='btn_continue'>Spiele weiter</label></li>
+            </ul>
+        </div>
+        </script>
         <script id='communication-template' type='text-template'>
             <div id='layer'></div>
         </script>
 
         <script id='gameover-template' type='text-template'>
-            <div class='content'>
+            <div id='comm_gameover' class='content'>
             <label class='communication'>GAME OVER!</label>
             <ul id='gameoverlist'>
                 <li><label class='btn_newgame communication'>New Game</label></li>
@@ -103,7 +111,7 @@
         </script>
 
         <script id='gamestart-template' type='text-template'>
-            <div class='content'>
+            <div id='comm_gamestart' class='content'>
             <label class='communication'> Press a Move Key to start </label>
             </div>
         </script>

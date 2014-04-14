@@ -9,9 +9,12 @@ function(Board, PreView, RiddleView)	{
 		var keymap = set_keymap(keys);
 		var movemap = {'1100':0, '1001': 1, '1000': 2, '0010': 3, '0110': 4, '0011': 5, '0100': 6, '0001': 7}; // lo, lu, l, r, ro, ru, o, u
 		var game_over = false;
-		var game_start = false;
+		var game_start = true;
+		var game_pause = false;
 		var boardview; 
 		var board;
+
+		app.observer.settrigger('game_pause', do_pause);
 
 		this.reset = function()	{
 			game_start = false;
@@ -30,8 +33,8 @@ function(Board, PreView, RiddleView)	{
 			boardview.new_game();
 			board.reset();
 			game_over = false;
-			game_start = false;
-			app.observer.trigger('gamestart', {state: !game_start});
+			game_start = true;
+			app.observer.trigger('gamestart', {state: game_start});
 		}
 
 
@@ -43,9 +46,17 @@ function(Board, PreView, RiddleView)	{
 		});
 
 		$(document).keyup(function(e)	{
-			calc_movements(get_keystring());
-			//boardview.unmark_connectors(movemap[get_keystring()]);
-			keymap = set_keymap(keys);
+			if(!game_pause)	{
+				calc_movements(get_keystring());
+				//boardview.unmark_connectors(movemap[get_keystring()]);
+				keymap = set_keymap(keys);
+			}
+			if(game_pause)	{
+				if(e.keyCode == 13)	{
+					app.observer.trigger('game_continue');
+					game_pause = false;
+				}
+			}
 		});
 
 		function get_keystring()	{
@@ -72,7 +83,6 @@ function(Board, PreView, RiddleView)	{
 			if(typeof movemap[keystring] != 'undefined' && !game_over)	{
 					do_movement(keystring);
 					game_over = check_game_over();
-					app.observer.trigger('gameover', {state: game_over});
 					return true;
 			}
 			return false;
@@ -80,23 +90,39 @@ function(Board, PreView, RiddleView)	{
 
 		function do_movement(keystring)	{
 			var tiles_left = -1,moved = false;
-			board.tiles.move_tiles(movemap[keystring], function(old_field, new_field, tiles_counter, movement, score, to_delete)	{
+			board.tiles.move_tiles(movemap[keystring], function(old_field, new_field, tiles_counter, movement, score, max_tile, target_tile,to_delete)	{
+				var win = false;
+				if(max_tile) if(max_tile.get_value() == target_tile) app.observer.trigger('win_tile', {state: true});
+				
 				tiles_left = tiles_counter;
 				boardview.move_tile(old_field, new_field, score, to_delete);
 				moved = movement;
 			});
-			if((tiles_left == 0 && moved) || !game_start)	{
+			if(!game_start)	{
 				boardview.new_tile(board.tiles.new_random_tile(false));
-				game_start = true;
-				app.observer.trigger('gamestart', {state: !game_start});
+				game_start = false;
+			}
+
+			if(game_start)	{
+				boardview.new_tile(board.tiles.new_random_tile(true));
+				game_start = false;
 			}
 		}
 
 		function check_game_over()	{
 			if(board.tiles.game_over())	{
+				app.observer.trigger('gameover', {state: true});
 				return true;
 			}
 			return false;
+		}
+
+		function do_pause()	{
+			game_pause = true;
+		}
+
+		this.do_continue = function()	{
+			game_pause = false;
 		}
 
 		

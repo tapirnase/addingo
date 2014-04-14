@@ -4,12 +4,12 @@ define([
 	'riddle/lib/field'
 ],
 function(Tiles, SortPush, Field)	{
-	function board(board)	{
+	function board(board, target_tile)	{
 		init();
 		var board_map = board;
 		var board_structure = get_boardstructure();
 		var board_data = get_boarddata();
-		this.tiles = new Tiles(board_structure, board_map, board_data);
+		this.tiles = new Tiles(board_structure, board_map, board_data, target_tile);
 
 
 

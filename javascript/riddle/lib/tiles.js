@@ -3,7 +3,7 @@ define([
 	'riddle/lib/tile'
 ],
 function(Field, Tile)	{
-	function tiles(board_structure, board_map, board_data)	{
+	function tiles(board_structure, board_map, board_data, target_tile)	{
 		var active_tiles = [];
 		var new_tiles = [];
 		var board_structure = board_structure;
@@ -11,6 +11,8 @@ function(Field, Tile)	{
 		var board_data = board_data;
 		var score = 0;
 		var tile_counter = 0;
+		var target_tile = target_tile;
+		var max_tile = null;
 
 
 		this.reset = function()	{
@@ -71,8 +73,11 @@ function(Field, Tile)	{
 					position = Math.floor(Math.random() * board_structure[row].length);
 				} while(board_structure[row][position].get_tile() != null)
 				var new_value = random_value[Math.floor(Math.random() * 2)];
+				var n_tile = new_tile({row: row, position: position}, new_value);
+
 				if(!start_tile) score += new_value;
-				return new_tile({row: row, position: position}, new_value);
+				if(start_tile) max_tile = n_tile;
+				return n_tile;
 			}
 			return null;
 		}
@@ -132,13 +137,15 @@ function(Field, Tile)	{
 					
 					n_tile = board_structure.board_tile(new_field.get_neighbours()[direction]);
 					n_tile.double_value();
+					if(max_tile) if(n_tile.get_value() > max_tile.get_value()) max_tile = n_tile;
 					to_delete = old_field.get_tile().get_id();
 					score += n_tile.get_value();
 					old_field.delete_tile();
 					moved = true;
 					new_field = n_tile.get_parent();
 				}
-				callback_move(old_field, new_field, active_tiles.length, moved, score, to_delete);
+				callback_move(old_field, new_field, active_tiles.length, moved, score, max_tile, target_tile,to_delete);
+				if(max_tile) if(max_tile.get_value() == target_tile) max_tile = null;
 			}
 
 		}
